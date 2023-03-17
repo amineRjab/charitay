@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f6f6f6",
-    padding: 16,
+    padding: 20,
+    elevation: 40,
   },
   profile: {
     flexDirection: "column",
@@ -68,8 +69,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
-    padding: 16,
+    elevation: 40,
+    padding: 10,
   },
   profileAvatar: {
     width: 120,
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   profileAction: {
-    backgroundColor: "#3A98B9",
+    backgroundColor: "#1363DF",
     paddingHorizontal: 20,
     paddingVertical: 8,
     borderRadius: 4,

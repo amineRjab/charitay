@@ -42,7 +42,7 @@ const styles = {
 
   button: {
     justifyContent: "space-between",
-    backgroundColor: "#3A98B9",
+    backgroundColor: "#1373DF",
     paddingHorizontal: 25,
     paddingVertical: 10,
     marginHorizontal: 5,
@@ -90,7 +90,7 @@ const MyComponent = ({ show, radius, setShow, setRadius, oneUser }) => {
                 onPress={() => this._panel.show()}
                 style={styles.button1}
               >
-                <Text style={styles.buttonText}>Show Panel</Text>
+                <Text style={styles.buttonText}>                                    Show Panel                                      </Text>
               </TouchableOpacity>
             </View>
           </View>

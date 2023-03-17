@@ -10,12 +10,16 @@ import MapView, {
 
 import MyComponent from "./swipe";
 import SlidingUpPanel from "rn-sliding-up-panel";
-import { StyleSheet, View, Image, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+ 
+} from "react-native";
 import * as Location from "expo-location";
 import { getPreciseDistance, getDistance } from "geolib";
-import dummyy from "./dummy.js";
 import MapViewDirections from "react-native-maps-directions";
-import Card from "../Map1/Cart";
 import itemData from "./itemData.js";
 // import  { GOOGLE_MAPS_KEY } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -121,10 +125,16 @@ const Map = () => {
             setArr(response.data);
             console.log(arr);
           }, []);
-        } else {
+        } else if(role=="ds") {
           axios.get(`${url}/api/${"volunteer"}`).then((response) => {
             setArr(response.data);
           }, []);
+        }
+        else {
+           axios.get(`${url}/api/${"disable"}`).then((response) => {
+             setArr(response.data);
+             console.log(arr);
+           }, []);
         }
       });
   };
@@ -198,7 +208,7 @@ const Map = () => {
                     }}
                   >
                     <Image
-                      source={require("../assets/help.png")}
+                      source={require("../assets/vool.png")}
                       style={styles.MarkerImage}
                     />
                   </Marker>
@@ -207,7 +217,7 @@ const Map = () => {
           <MapViewDirections
             origin={pin}
             destination={destination}
-            apikey={""}
+            apikey={"AIzaSyB3gw78dU8-sOg2nzSiHi4-7LUgEedSasM"}
             strokeWidth={5}
             strokeColor="#0096FF"
           />
@@ -258,7 +268,7 @@ const Map = () => {
           >
             <View>
               <Image
-                source={require("../assets/nn.png")}
+                source={require("../assets/vool.png")}
                 style={styles.MarkerImage}
               />
             </View>
@@ -315,6 +325,100 @@ const Map = () => {
       </View>
     );
   }
+  else {
+    return (
+      <View style={styles.container}>
+        <MapView
+          provider={PROVIDER_GOOGLE}
+          style={styles.map}
+          initialRegion={{
+            latitude: 36.894252,
+            longitude: 10.186974,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          showsUserLocation={true}
+          onUserLocationChange={(e) => {
+            // console.log("onUserLocationChange", e.nativeEvent.coordinate);
+            setPin({
+              latitude: e.nativeEvent.coordinate.latitude,
+              longitude: e.nativeEvent.coordinate.longitude,
+            });
+          }}
+        >
+          <Marker
+            coordinate={pin}
+            description="eager to help"
+            draggable={true}
+            onDragStart={(e) => {
+              console.log("drag start", e.nativeEvent);
+              setPin({
+                latitude: e.nativeEvent.coordinate.latitude,
+                longitude: e.nativeEvent.coordinate.longitude,
+              });
+            }}
+          >
+            <View>
+              <Image
+                source={require("")}
+                style={styles.MarkerImage}
+              />
+            </View>
+            <Callout>
+              <Text></Text>
+            </Callout>
+          </Marker>
+          {show &&
+            arr
+              .filter((e) => calculatePreciseDistance(e) <= radius)
+              .map((cor) => {
+                return (
+                  <>
+                    <Marker
+                      key={cor.id}
+                      coordinate={{
+                        latitude: cor.latitude,
+                        longitude: cor.longitude,
+                      }}
+                      tappable={true}
+                      onPress={(e) => {
+                        setOneUser(cor);
+
+                        console.log("amine tapping", e.nativeEvent.coordinate);
+                        setDestination(e.nativeEvent.coordinate);
+                      }}
+                    >
+                      <Image
+                        source={require("../assets/help.png")}
+                        style={styles.MarkerImage}
+                      />
+                    </Marker>
+                    <MapViewDirections
+                      origin={pin}
+                      destination={destination}
+                      apikey={""}
+                      strokeWidth={5}
+                      strokeColor="#0096FF"
+                    />
+                  </>
+                );
+              })}
+
+          {/* <Polyline coordinates={[pin, directions]} strokeWidth={4}strokeColor="red" /> */}
+          <Circle center={pin} radius={radius} />
+        </MapView>
+        <MyComponent
+          oneUser={oneUser}
+          show={show}
+          setShow={setShow}
+          radius={radius}
+          setRadius={setRadius}
+        />
+      </View>
+    );
+  }
+
+  
 };
 
 const styles = StyleSheet.create({
